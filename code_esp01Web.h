@@ -13,7 +13,7 @@ void setup(){
  sendData("AT+CWJAP=\"FLIA CENTENO\",\"S1elultimoreino\"\r\n",8000); //SSID y contraseña para unirse a red 
  sendData("AT+CIFSR\r\n",1000);    // obtener dirección IP
  sendData("AT+CIPMUX=1\r\n",1000); // configurar para multiples conexiones
- sendData("AT+CIPSERVER=1,1728\r\n",1000);         // servidor en el puerto 80
+ sendData("AT+CIPSERVER=1,80\r\n",1000);         // servidor en el puerto 80
 }
 
 void loop(){
@@ -35,8 +35,9 @@ void loop(){
  //responder y cerrar la conexión para que el navegador no se quede cargando 
  // página web a enviar
  String webpage = "";
- if (state==1) webpage += "<h1>LED_13 = encendido!</h1>";
- else { webpage += "<h1>LED_13 = apagado!</h1>";}
+
+ if (state==1) webpage += "<h1>LED = encendido!</h1><img style=\"height:40px; width:40px\" src=\"https://pngimage.net/wp-content/uploads/2018/06/red-led-png-.png\"><br><form action=\"led=0\" method=\"GET\"><input style=\"background:red;color:white\" type=\"submit\" value=\"Apagar\"> </form>";
+ else { webpage += "<h1>LED = Apagado!</h1><img style=\"height:40px; width:40px\" src=\"https://www.clker.com/cliparts/q/l/T/H/l/f/red-led-2-md.png\"><br><form action=\"led=1\" method=\"GET\"><input type=\"submit\" style=\"background:green;color:white\" value=\"Encender\"> </form>";}
  
  // comando para enviar página web
  String comandoWebpage = "AT+CIPSEND=";
@@ -44,6 +45,7 @@ void loop(){
  comandoWebpage+=",";
  comandoWebpage+=webpage.length();
  comandoWebpage+="\r\n";
+ 
  sendData(comandoWebpage,1000);
  sendData(webpage,1000);
  
